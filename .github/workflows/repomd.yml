@@ -1,0 +1,44 @@
+name: repomd
+on: 
+  push:
+    branches: main
+  workflow_dispatch:
+  schedule:
+  - cron:  '25 0,6,12,18 * * *'
+
+jobs:
+  repomd:
+    runs-on: ubuntu
+    steps:
+    - id: checkout
+      uses: actions/checkout@v3
+
+    - id: buildmd
+      run: |
+        bash createrepo.sh
+
+    - id: lpublish
+      name: "Publish metadata on GitHub"
+      run: |
+        git config user.name nethbot
+        git config user.email nethbot@nethesis.it
+        BRANCH=$(basename ${{ github.ref }})
+        COMMIT_MESSAGE="repomd@$BRANCH"
+        REMOTE_BRANCH="repomd"
+        mkdir -p .dst
+        mv repodata.json .dst/
+        cp -a $(ls -d */) .dst/
+        git add .dst/
+        TREE=$(git write-tree --prefix=.dst)
+        COMMIT=$(git commit-tree -m "${COMMIT_MESSAGE}" ${TREE})
+        git push -f origin $COMMIT:refs/heads/${REMOTE_BRANCH}
+        {
+          echo "Repository metadata has been published to"
+          echo ""
+          echo "https://raw.githubusercontent.com/${{ github.repository }}/${REMOTE_BRANCH}/repodata.json"
+          echo ""
+          echo "Source"
+          echo ""
+          echo "https://github.com/${{ github.repository }}/tree/${REMOTE_BRANCH}"
+          echo ""
+        } >> $GITHUB_STEP_SUMMARY
