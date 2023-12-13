@@ -28,6 +28,7 @@ jobs:
         mkdir -p .dst
         mv repodata.json .dst/
         cp -a $(ls -d */) .dst/
+        cp README.md .dst/index.md
         git add .dst/
         TREE=$(git write-tree --prefix=.dst)
         COMMIT=$(git commit-tree -m "${COMMIT_MESSAGE}" ${TREE})
