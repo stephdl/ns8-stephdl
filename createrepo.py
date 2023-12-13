@@ -1,28 +1,12 @@
 #!/usr/bin/env python3
 
 #
-# Copyright (C) 2021 Nethesis S.r.l.
-# http://www.nethesis.it - nethserver@nethesis.it
-#
-# This script is part of NethServer.
-#
-# NethServer is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License,
-# or any later version.
-#
-# NethServer is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with NethServer.  If not, see COPYING.
+# Copyright (C) 2023 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-
 #
-# Create NethServer repository metadata
+# Create NethForge repository metadata
 # Walk all directories on the given path: each path represent a package
 #
 
@@ -50,7 +34,6 @@ defaults = {
         "bug_url": "https://github.com/NethServer/dev",
         "code_url": "https://github.com/NethServer/"
     },
-    "source": "ghcr.io/nethserver",
     "versions": []
 }
 
@@ -68,42 +51,23 @@ for entry_path in glob.glob(path + '/*'): # do not match .git and similar
     # make sure to copy the defaults and do not just creating a reference
     metadata = copy.deepcopy(defaults)
     # prepare default values
-    metadata["name"] = entry_name
+    metadata["name"] = entry_name.capitalize()
     metadata["description"]["en"] = f"Auto-generated description for {entry_name}"
-    metadata["source"] = f"{metadata['source']}/{entry_name}"
     # this field will be used to calculate the base name of images
     metadata["id"] = entry_name
 
     version_labels = {}
     metadata_file = os.path.join(entry_name, "metadata.json")
 
-    # local file overrides the remote one
-    # if a file is not present, download from git repository:
-    # assume the source package is hosted on GithHub under NethServer organization
-    if not os.path.isfile(metadata_file):
-        print(f'Downloading metadata for {metadata["name"]}')
-        url = f'https://raw.githubusercontent.com/NethServer/ns8-{metadata["name"]}/main/ui/public/metadata.json'
-        res = urllib.request.urlopen(urllib.request.Request(url))
-        with open(metadata_file, 'wb') as metadata_fpw:
-             metadata_fpw.write(res.read())
+    try:
+        with open(metadata_file) as metadata_fp:
+            # merge defaults and JSON file, the latter one has precedence
+            metadata = {**metadata, **json.load(metadata_fp)}
+    except FileNotFoundError as ex:
+        print(f"Module {entry_name} was ignored:", ex, file=sys.stderr)
+        continue
 
-    with open(metadata_file) as metadata_fp:
-        # merge defaults and JSON file, the latter one has precedence
-        metadata = {**metadata, **json.load(metadata_fp)}
-
-    # download logo if not present
-    # add it only if it's a PNG
     logo = os.path.join(entry_name, "logo.png")
-    if not os.path.isfile(logo):
-        print(f'Downloading logo for {metadata["name"]}')
-        url = f'https://raw.githubusercontent.com/NethServer/ns8-{metadata["name"]}/main/ui/src/assets/module_default_logo.png'
-        try:
-            res = urllib.request.urlopen(urllib.request.Request(url))
-            with open(logo, 'wb') as logo_fpw:
-                logo_fpw.write(res.read())
-        except:
-            pass
-
     if os.path.isfile(logo) and imghdr.what(logo) == "png":
         metadata["logo"] = "logo.png"
 
