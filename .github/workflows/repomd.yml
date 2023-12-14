@@ -25,10 +25,10 @@ jobs:
         BRANCH=$(basename ${{ github.ref }})
         COMMIT_MESSAGE="repomd@$BRANCH"
         REMOTE_BRANCH="repomd"
-        mkdir -p .dst
-        mv repodata.json .dst/
-        cp -a $(ls -d */) .dst/
-        cp README.md .dst/index.md
+        mkdir -vp .dst/ns8/updates/
+        mv -v repodata.json .dst/ns8/updates
+        cp -av $(ls -d */) .dst/ns8/updates/
+        cp -v README.md .dst/index.md
         echo forge.nethserver.org > .dst/CNAME
         git add .dst/
         TREE=$(git write-tree --prefix=.dst)

@@ -12,4 +12,4 @@ To use the modules listed here as NS8 repository, see the [manual
 page](https://docs.nethserver.org/projects/ns8/en/latest/modules.html#software-repositories)
 and set the following URL:
 
-    https://forge.nethserver.org/
+    https://forge.nethserver.org/ns8/updates/
