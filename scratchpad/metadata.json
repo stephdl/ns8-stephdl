@@ -1,7 +1,7 @@
 {
     "name": "scratchpad",
     "description": {
-        "en": "A blank module for sysadmins that want to start from scratch"
+        "en": "A blank module designed for sysadmins who want to start from scratch"
     },
     "categories": [
         "development"
