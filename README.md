@@ -13,3 +13,7 @@ page](https://docs.nethserver.org/projects/ns8/en/latest/modules.html#software-r
 and set the following URL:
 
     https://forge.de-labrusse.fr/ns8/updates/
+
+Alternative URL:
+
+    https://raw.githubusercontent.com/stephdl/ns8-stephdl/repomd/ns8/updates/
