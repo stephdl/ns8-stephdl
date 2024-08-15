@@ -106,11 +106,21 @@ with open (os.path.join(path, 'repodata.json'), 'w') as outfile:
     json.dump(index, outfile, separators=(',', ':'))
 
 
-# list all the folders in the current directory and append the name of all folders to the end of readme.md
-folders = [f for f in os.listdir('.') if os.path.isdir(f) and not f.startswith('.')]  # list all non-hidden folders in the current directory
-with open('README.md', 'a') as f:
-    f.write('\n\n## List of all the modules in this repository\n\n')
-    for folder in folders:
-        f.write(f'- {folder}\n')    # append the name of all folders to the end of readme.md
-    f.write('\n\n')
-    f.close()
+# # list all the folders in the current directory and append the name of all folders to the end of readme.md
+# folders = [f for f in os.listdir('.') if os.path.isdir(f) and not f.startswith('.')]  # list all non-hidden folders in the current directory
+# with open('README.md', 'a') as f:
+#     f.write('\n\n## List of all the modules in this repository\n\n')
+#     for folder in folders:
+#         f.write(f'- {folder}\n')    # append the name of all folders to the end of readme.md
+#     f.write('\n\n')
+#     f.close()
+
+# I would like to read the repodata.json file and append the name of all the modules to the end of the readme.md file with the description in english
+with open('repodata.json') as json_file:
+    data = json.load(json_file)
+    with open('README.md', 'a') as f:
+        f.write('\n\n## List of all the modules in this repository with their description\n\n')
+        for module in data:
+            f.write(f'- {module["name"]}: {module["description"]["en"]}\n')    # append the name of all folders to the end of readme.md
+        f.write('\n\n')
+        f.close()
