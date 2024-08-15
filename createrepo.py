@@ -126,15 +126,15 @@ with open('repodata.json') as json_file:
 
         # Add table header
         f.write('## List of all the modules in this repository with their description\n\n')
-        f.write('| Module Name | Description | Documentation |\n')
+        f.write('| Module Name | Description | Code |\n')
         f.write('|-------------|-------------|----------------|\n')
 
         # Add table rows
         for module in data:
             name = module["name"]
             description = module["description"]["en"]
-            docs_url = module["docs"]["code_url"]
-            f.write(f'| {name} | {description} | [Docs]({docs_url}) |\n')
+            code_url = module["docs"]["code_url"]
+            f.write(f'| {name} | {description} | [Code]({code_url}) |\n')
 
         f.write('\n\n')
         f.close()
