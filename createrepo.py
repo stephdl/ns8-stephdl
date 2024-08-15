@@ -19,6 +19,7 @@ import semver
 import subprocess
 import glob
 import urllib.request
+import json
 
 path = '.'
 index = []
@@ -115,12 +116,25 @@ with open (os.path.join(path, 'repodata.json'), 'w') as outfile:
 #     f.write('\n\n')
 #     f.close()
 
-# I would like to read the repodata.json file and append the name of all the modules to the end of the readme.md file with the description in english
+
 with open('repodata.json') as json_file:
     data = json.load(json_file)
     with open('README.md', 'a') as f:
-        f.write('\n\n## List of all the modules in this repository with their description\n\n')
+        # Add project web link
+        f.write('\n\n## Project stephdl Link\n\n')
+        f.write('[Project stephdl Link](https://github.com/stephdl/dev)\n\n')  # Replace with the actual project link
+
+        # Add table header
+        f.write('## List of all the modules in this repository with their description\n\n')
+        f.write('| Module Name | Description | Documentation |\n')
+        f.write('|-------------|-------------|----------------|\n')
+
+        # Add table rows
         for module in data:
-            f.write(f'- {module["name"]}: {module["description"]["en"]}\n')    # append the name of all folders to the end of readme.md
+            name = module["name"]
+            description = module["description"]["en"]
+            docs_url = module["docs"]["code_url"]
+            f.write(f'| {name} | {description} | [Docs]({docs_url}) |\n')
+
         f.write('\n\n')
         f.close()
