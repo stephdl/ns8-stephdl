@@ -19,6 +19,7 @@ import semver
 import subprocess
 import glob
 import urllib.request
+import json
 
 path = '.'
 index = []
@@ -106,11 +107,34 @@ with open (os.path.join(path, 'repodata.json'), 'w') as outfile:
     json.dump(index, outfile, separators=(',', ':'))
 
 
-# list all the folders in the current directory and append the name of all folders to the end of readme.md
-folders = [f for f in os.listdir('.') if os.path.isdir(f) and not f.startswith('.')]  # list all non-hidden folders in the current directory
-with open('README.md', 'a') as f:
-    f.write('\n\n## List of all the modules in this repository\n\n')
-    for folder in folders:
-        f.write(f'- {folder}\n')    # append the name of all folders to the end of readme.md
-    f.write('\n\n')
-    f.close()
+# # list all the folders in the current directory and append the name of all folders to the end of readme.md
+# folders = [f for f in os.listdir('.') if os.path.isdir(f) and not f.startswith('.')]  # list all non-hidden folders in the current directory
+# with open('README.md', 'a') as f:
+#     f.write('\n\n## List of all the modules in this repository\n\n')
+#     for folder in folders:
+#         f.write(f'- {folder}\n')    # append the name of all folders to the end of readme.md
+#     f.write('\n\n')
+#     f.close()
+
+
+with open('repodata.json') as json_file:
+    data = json.load(json_file)
+    with open('README.md', 'a') as f:
+        # Add project web link
+        f.write('\n\n## Project stephdl Link\n\n')
+        f.write('[Project stephdl Link](https://github.com/stephdl/dev)\n\n')  # Replace with the actual project link
+
+        # Add table header
+        f.write('## List of all the modules in this repository with their description\n\n')
+        f.write('| Module Name | Description | Documentation |\n')
+        f.write('|-------------|-------------|----------------|\n')
+
+        # Add table rows
+        for module in data:
+            name = module["name"]
+            description = module["description"]["en"]
+            docs_url = module["docs"]["code_url"]
+            f.write(f'| {name} | {description} | [Docs]({docs_url}) |\n')
+
+        f.write('\n\n')
+        f.close()
