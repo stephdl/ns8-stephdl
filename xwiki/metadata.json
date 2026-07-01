@@ -1,0 +1,19 @@
+{
+  "name": "xwiki",
+  "description": {
+    "en": "XWiki is a free and open source wiki software platform"
+  },
+  "categories": ["collaboration"],
+  "authors": [
+    {
+      "name": "stephane de Labrusse",
+      "email": "stephdl@de-labrusse.fr"
+    }
+  ],
+  "docs": {
+    "documentation_url": "https://www.xwiki.org",
+    "bug_url": "https://github.com/stephdl/dev/issues",
+    "code_url": "https://github.com/stephdl/ns8-xwiki"
+  },
+  "source": "ghcr.io/stephdl/xwiki"
+}
