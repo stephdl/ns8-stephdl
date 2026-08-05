@@ -1,0 +1,19 @@
+{
+  "name": "BigBlueButton",
+  "description": {
+    "en": "Web conferencing with audio, video, screen sharing, shared notes and recording"
+  },
+  "categories": ["collaboration"],
+  "authors": [
+    {
+      "name": "Stephane de Labrusse",
+      "email": "stephane.delabrusse@nethesis.it"
+    }
+  ],
+  "docs": {
+    "documentation_url": "https://docs.bigbluebutton.org/",
+    "bug_url": "https://github.com/stephdl/ns8-bigbluebutton/issues",
+    "code_url": "https://github.com/stephdl/ns8-bigbluebutton"
+  },
+  "source": "ghcr.io/stephdl/bigbluebutton"
+}
