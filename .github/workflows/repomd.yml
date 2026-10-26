@@ -6,6 +6,10 @@ on:
   schedule:
   - cron:  '25 0,6,12,18 * * *'
 
+# The job only pushes the repomd branch, so the token gets nothing else.
+permissions:
+  contents: write
+
 jobs:
   repomd:
     runs-on: ubuntu-latest
