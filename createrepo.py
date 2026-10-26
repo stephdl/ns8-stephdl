@@ -58,6 +58,7 @@ for entry_path in glob.glob(path + '/*'): # do not match .git and similar
     metadata["id"] = entry_name
 
     version_labels = {}
+    version_created = {}
     metadata_file = os.path.join(entry_name, "metadata.json")
 
     try:
@@ -93,13 +94,14 @@ for entry_path in glob.glob(path + '/*'): # do not match .git and similar
                 p = subprocess.Popen(["skopeo", "inspect", f'docker://{metadata["source"]}:{tag}'], stdout=subprocess.PIPE, stderr=sys.stderr)
                 info_tags = json.load(p.stdout)
                 version_labels[tag] = info_tags['Labels']
+                version_created[tag] = info_tags.get('Created')
             except:
                 # skip invalid semantic versions
                 pass
 
         # Sort by most recent
         for v in sorted(versions, reverse=True):
-            metadata["versions"].append({"tag": f"{v}", "testing": (not v.prerelease is None),  "labels": version_labels[f"{v}"]})
+            metadata["versions"].append({"tag": f"{v}", "testing": (not v.prerelease is None),  "labels": version_labels[f"{v}"], "created": version_created[f"{v}"]})
 
     index.append(metadata)
 
