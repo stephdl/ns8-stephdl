@@ -56,9 +56,9 @@ a:hover { text-decoration: underline; }
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 .topbar .wrap { display: flex; gap: 20px; align-items: center; height: 56px; }
-.brand { display: flex; gap: 10px; align-items: center; color: var(--text); font-weight: 650; white-space: nowrap; }
+.brand { display: flex; gap: 10px; align-items: center; color: var(--text); font-size: 17px; font-weight: 650; white-space: nowrap; }
 .brand:hover { text-decoration: none; }
-.brand-mark { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); }
+.brand-mark { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); }
 .nav { display: flex; gap: 18px; margin-left: auto; }
 .nav a { color: var(--text-dim); font-size: 14px; }
 .nav a:hover { color: var(--text); text-decoration: none; }
@@ -365,7 +365,7 @@ footer nav { display: flex; gap: 18px; }
       <div class="heat-panel">
         <div class="heat-scroll"><div class="heat" id="heat"></div></div>
         <div class="heat-foot">
-          <span id="heat-note"></span>
+          <span></span>
           <span class="legend"><span data-i="less"></span>&nbsp;<i style="background:var(--heat-0)"></i><i style="background:var(--heat-1)"></i><i style="background:var(--heat-2)"></i><i style="background:var(--heat-3)"></i><i style="background:var(--heat-4)"></i>&nbsp;<span data-i="more"></span></span>
         </div>
       </div>
@@ -379,11 +379,9 @@ footer nav { display: flex; gap: 18px; }
 
 <footer>
   <div class="wrap">
-    <span><span data-i="footer"></span> <span id="generated"></span></span>
+    <span id="generated"></span>
     <nav>
       <a href="https://github.com/stephdl/dev/issues" target="_blank" rel="noopener" data-i="bug"></a>
-      <a href="https://www.nethserver.org/" target="_blank" rel="noopener">NethServer</a>
-      <a href="https://nethsecurity.org/" target="_blank" rel="noopener">NethSecurity</a>
       <a href="https://github.com/stephdl/ns8-stephdl" target="_blank" rel="noopener">GitHub</a>
       <a href="https://forge.de-labrusse.fr/ns8/updates/repodata.json" target="_blank" rel="noopener">repodata.json</a>
       <a href="https://raw.githubusercontent.com/stephdl/ns8-stephdl/repomd/ns8/updates/" target="_blank" rel="noopener" data-i="mirror"></a>
@@ -394,6 +392,8 @@ footer nav { display: flex; gap: 18px; }
 <script>
 // The repomd workflow replaces this placeholder with the publish time.
 const GENERATED = "__GENERATED__";
+// Creation date of the stephdl GitHub account.
+const GITHUB_SINCE = Date.UTC(2013, 0, 1);
 let MODULES = [];
 let ACTIVITY = null;
 
@@ -401,7 +401,7 @@ const UI = {
   en: {
     generated: "Generated on {d}.",
     navHome: "Home",
-    heroModules: "modules", heroContrib: "contributions in 12 months", heroPrs: "pull requests", otherHelp: "Not a donor? A star on GitHub, a bug report or a translation helps too.", mirror: "Mirror",
+    heroModules: "modules", heroYears: "{n} years", heroYearsLabel: "of free software on GitHub", heroReleases: "releases published", otherHelp: "Not a donor? A star on GitHub, a bug report or a translation helps too.", mirror: "Mirror",
     role: "Developer and system administrator, NethServer and NethSecurity",
     navModules: "Modules", navActivity: "Activity", navServices: "Services",
     title: "NS8 modules by Stéphane de Labrusse",
@@ -414,7 +414,7 @@ const UI = {
     activityTitle: "GitHub activity", activitySub: "{n} contributions in the last 12 months, {p} of them in private repositories.", reviews: "Reviews",
     githubProfile: "GitHub profile",
     commits: "Commits", prs: "Pull requests", issues: "Issues",
-    less: "Less", more: "More", dayTip: "{n} contributions on {d}", heatNote: "Updated {d}",
+    less: "Less", more: "More", dayTip: "{n} contributions on {d}",
     servicesEyebrow: "Freelance", servicesTitle: "Need help with NethServer or NethSecurity?",
     servicesText: "I can fix your issues on NethServer and NethSecurity, package an application as a NethServer module, or write the code you are missing.", proSite: "See my services",
     email: "Email", phone: "Phone", website: "Website",
@@ -425,13 +425,13 @@ const UI = {
     indexTitle: "Looking for more NS8 apps?",
     indexText: "The NS8 App Index lists every NethServer 8 app from official and community repositories, in one searchable catalog.",
     indexBtn: "Open the NS8 App Index",
-    footer: "Each module is free software. See its repository for the license.", bug: "Report a bug",
+    bug: "Report a bug",
     cat: { all: "All", collaboration: "Collaboration", security: "Security", monitoring: "Monitoring", database: "Database", communication: "Communication", other: "Other" }
   },
   fr: {
     generated: "Généré le {d}.",
     navHome: "Accueil",
-    heroModules: "modules", heroContrib: "contributions en 12 mois", heroPrs: "pull requests", otherHelp: "Pas de don possible ? Une étoile sur GitHub, un rapport de bug ou une traduction aident aussi.", mirror: "Miroir",
+    heroModules: "modules", heroYears: "{n} ans", heroYearsLabel: "de logiciel libre sur GitHub", heroReleases: "releases publiées", otherHelp: "Pas de don possible ? Une étoile sur GitHub, un rapport de bug ou une traduction aident aussi.", mirror: "Miroir",
     role: "Développeur et administrateur système, NethServer et NethSecurity",
     navModules: "Modules", navActivity: "Activité", navServices: "Services",
     title: "Modules NS8 par Stéphane de Labrusse",
@@ -444,7 +444,7 @@ const UI = {
     activityTitle: "Activité GitHub", activitySub: "{n} contributions sur les 12 derniers mois, dont {p} dans des dépôts privés.", reviews: "Reviews",
     githubProfile: "Profil GitHub",
     commits: "Commits", prs: "Pull requests", issues: "Issues",
-    less: "Moins", more: "Plus", dayTip: "{n} contributions le {d}", heatNote: "Mis à jour le {d}",
+    less: "Moins", more: "Plus", dayTip: "{n} contributions le {d}",
     servicesEyebrow: "Freelance", servicesTitle: "Besoin d'aide avec NethServer ou NethSecurity ?",
     servicesText: "Je peux corriger vos problèmes sur NethServer et NethSecurity, packager une application en module NethServer ou écrire le code qui vous manque.", proSite: "Voir mes services",
     email: "Email", phone: "Téléphone", website: "Site web",
@@ -455,13 +455,13 @@ const UI = {
     indexTitle: "Vous cherchez d'autres applications NS8 ?",
     indexText: "Le NS8 App Index liste toutes les applications NethServer 8 des dépôts officiels et communautaires, dans un seul catalogue.",
     indexBtn: "Ouvrir le NS8 App Index",
-    footer: "Chaque module est un logiciel libre. Voir son dépôt pour la licence.", bug: "Signaler un bug",
+    bug: "Signaler un bug",
     cat: { all: "Tous", collaboration: "Collaboration", security: "Sécurité", monitoring: "Supervision", database: "Base de données", communication: "Communication", other: "Autre" }
   },
   it: {
     generated: "Generato il {d}.",
     navHome: "Home",
-    heroModules: "moduli", heroContrib: "contributi in 12 mesi", heroPrs: "pull request", otherHelp: "Non puoi donare? Una stella su GitHub, una segnalazione di bug o una traduzione aiutano lo stesso.", mirror: "Mirror",
+    heroModules: "moduli", heroYears: "{n} anni", heroYearsLabel: "di software libero su GitHub", heroReleases: "release pubblicate", otherHelp: "Non puoi donare? Una stella su GitHub, una segnalazione di bug o una traduzione aiutano lo stesso.", mirror: "Mirror",
     role: "Sviluppatore e amministratore di sistema, NethServer e NethSecurity",
     navModules: "Moduli", navActivity: "Attività", navServices: "Servizi",
     title: "Moduli NS8 di Stéphane de Labrusse",
@@ -474,7 +474,7 @@ const UI = {
     activityTitle: "Attività GitHub", activitySub: "{n} contributi negli ultimi 12 mesi, di cui {p} in repository privati.", reviews: "Review",
     githubProfile: "Profilo GitHub",
     commits: "Commit", prs: "Pull request", issues: "Issue",
-    less: "Meno", more: "Più", dayTip: "{n} contributi il {d}", heatNote: "Aggiornato il {d}",
+    less: "Meno", more: "Più", dayTip: "{n} contributi il {d}",
     servicesEyebrow: "Freelance", servicesTitle: "Serve aiuto con NethServer o NethSecurity?",
     servicesText: "Posso risolvere i tuoi problemi su NethServer e NethSecurity, pacchettizzare un'applicazione come modulo NethServer o scrivere il codice che ti manca.", proSite: "Scopri i miei servizi",
     email: "Email", phone: "Telefono", website: "Sito web",
@@ -485,13 +485,13 @@ const UI = {
     indexTitle: "Cerchi altre app per NS8?",
     indexText: "NS8 App Index elenca tutte le app NethServer 8 dei repository ufficiali e della community, in un unico catalogo.",
     indexBtn: "Apri NS8 App Index",
-    footer: "Ogni modulo è software libero. Vedi il suo repository per la licenza.", bug: "Segnala un bug",
+    bug: "Segnala un bug",
     cat: { all: "Tutti", collaboration: "Collaborazione", security: "Sicurezza", monitoring: "Monitoraggio", database: "Database", communication: "Comunicazione", other: "Altro" }
   },
   de: {
     generated: "Erstellt am {d}.",
     navHome: "Start",
-    heroModules: "Module", heroContrib: "Beiträge in 12 Monaten", heroPrs: "Pull Requests", otherHelp: "Keine Spende möglich? Ein Stern auf GitHub, ein Fehlerbericht oder eine Übersetzung helfen auch.", mirror: "Spiegel",
+    heroModules: "Module", heroYears: "{n} Jahre", heroYearsLabel: "freie Software auf GitHub", heroReleases: "veröffentlichte Releases", otherHelp: "Keine Spende möglich? Ein Stern auf GitHub, ein Fehlerbericht oder eine Übersetzung helfen auch.", mirror: "Spiegel",
     role: "Entwickler und Systemadministrator, NethServer und NethSecurity",
     navModules: "Module", navActivity: "Aktivität", navServices: "Dienstleistungen",
     title: "NS8-Module von Stéphane de Labrusse",
@@ -504,7 +504,7 @@ const UI = {
     activityTitle: "GitHub-Aktivität", activitySub: "{n} Beiträge in den letzten 12 Monaten, davon {p} in privaten Repositories.", reviews: "Reviews",
     githubProfile: "GitHub-Profil",
     commits: "Commits", prs: "Pull Requests", issues: "Issues",
-    less: "Weniger", more: "Mehr", dayTip: "{n} Beiträge am {d}", heatNote: "Aktualisiert am {d}",
+    less: "Weniger", more: "Mehr", dayTip: "{n} Beiträge am {d}",
     servicesEyebrow: "Freelance", servicesTitle: "Hilfe mit NethServer oder NethSecurity?",
     servicesText: "Ich behebe deine Probleme mit NethServer und NethSecurity, paketiere eine Anwendung als NethServer-Modul oder schreibe den Code, der dir fehlt.", proSite: "Meine Dienstleistungen",
     email: "E-Mail", phone: "Telefon", website: "Webseite",
@@ -515,13 +515,13 @@ const UI = {
     indexTitle: "Suchst du weitere NS8-Apps?",
     indexText: "Der NS8 App Index listet alle NethServer-8-Apps aus offiziellen und Community-Repositories in einem durchsuchbaren Katalog.",
     indexBtn: "NS8 App Index öffnen",
-    footer: "Jedes Modul ist freie Software. Die Lizenz steht im jeweiligen Repository.", bug: "Fehler melden",
+    bug: "Fehler melden",
     cat: { all: "Alle", collaboration: "Zusammenarbeit", security: "Sicherheit", monitoring: "Überwachung", database: "Datenbank", communication: "Kommunikation", other: "Sonstiges" }
   },
   es: {
     generated: "Generado el {d}.",
     navHome: "Inicio",
-    heroModules: "módulos", heroContrib: "contribuciones en 12 meses", heroPrs: "pull requests", otherHelp: "¿No puedes donar? Una estrella en GitHub, un informe de error o una traducción también ayudan.", mirror: "Espejo",
+    heroModules: "módulos", heroYears: "{n} años", heroYearsLabel: "de software libre en GitHub", heroReleases: "versiones publicadas", otherHelp: "¿No puedes donar? Una estrella en GitHub, un informe de error o una traducción también ayudan.", mirror: "Espejo",
     role: "Desarrollador y administrador de sistemas, NethServer y NethSecurity",
     navModules: "Módulos", navActivity: "Actividad", navServices: "Servicios",
     title: "Módulos NS8 de Stéphane de Labrusse",
@@ -534,7 +534,7 @@ const UI = {
     activityTitle: "Actividad en GitHub", activitySub: "{n} contribuciones en los últimos 12 meses, {p} de ellas en repositorios privados.", reviews: "Revisiones",
     githubProfile: "Perfil de GitHub",
     commits: "Commits", prs: "Pull requests", issues: "Issues",
-    less: "Menos", more: "Más", dayTip: "{n} contribuciones el {d}", heatNote: "Actualizado el {d}",
+    less: "Menos", more: "Más", dayTip: "{n} contribuciones el {d}",
     servicesEyebrow: "Freelance", servicesTitle: "¿Necesitas ayuda con NethServer o NethSecurity?",
     servicesText: "Puedo resolver tus problemas en NethServer y NethSecurity, empaquetar una aplicación como módulo de NethServer o escribir el código que te falta.", proSite: "Ver mis servicios",
     email: "Email", phone: "Teléfono", website: "Sitio web",
@@ -545,7 +545,7 @@ const UI = {
     indexTitle: "¿Buscas más aplicaciones para NS8?",
     indexText: "NS8 App Index reúne todas las aplicaciones de NethServer 8 de los repositorios oficiales y de la comunidad, en un solo catálogo.",
     indexBtn: "Abrir NS8 App Index",
-    footer: "Cada módulo es software libre. Consulta su repositorio para la licencia.", bug: "Informar de un error",
+    bug: "Informar de un error",
     cat: { all: "Todos", collaboration: "Colaboración", security: "Seguridad", monitoring: "Monitorización", database: "Base de datos", communication: "Comunicación", other: "Otros" }
   }
 };
@@ -643,14 +643,18 @@ function renderActivity() {
     html += `<span class="d" data-l="${level(c)}" style="grid-column:${Math.floor(pos / 7) + 1};grid-row:${(pos % 7) + 2}" title="${esc(fmt(t("dayTip"), { n: c, d: dateFmt.format(new Date(d + "T00:00:00")) }))}"></span>`;
   });
   $("#heat").innerHTML = html;
-  $("#heat-note").textContent = fmt(t("heatNote"), { d: dateFmt.format(new Date(ACTIVITY.updated)) });
 }
 
 function renderHero() {
   const n = nf();
-  const items = [[MODULES.length, "heroModules"]];
-  if (ACTIVITY) items.push([ACTIVITY.calendar.total, "heroContrib"], [ACTIVITY.prs, "heroPrs"]);
-  $("#hero-stats").innerHTML = items.map(([v, k]) => `<div><dt>${esc(t(k))}</dt><dd>${n.format(v)}</dd></div>`).join("");
+  const releases = MODULES.reduce((sum, m) => sum + m.releases, 0);
+  const years = Math.floor((Date.now() - GITHUB_SINCE) / (365.25 * 24 * 3600 * 1000));
+  const items = [
+    [n.format(MODULES.length), "heroModules"],
+    [n.format(releases), "heroReleases"],
+    [fmt(t("heroYears"), { n: n.format(years) }), "heroYearsLabel"]
+  ];
+  $("#hero-stats").innerHTML = items.map(([v, k]) => `<div><dt>${esc(t(k))}</dt><dd>${esc(v)}</dd></div>`).join("");
 }
 
 function render() { renderStatic(); renderHero(); renderChips(); renderModules(); renderActivity(); }
@@ -693,7 +697,7 @@ function toModules(repodata) {
     const stable = m.versions.find((v) => !v.testing);
     const v = stable || m.versions[0] || {};
     return { id: m.id, name: m.name, description: m.description, categories: m.categories, docs: m.docs,
-      logo: m.logo, version: v.tag || "", testing: !stable && Boolean(v.tag) };
+      logo: m.logo, version: v.tag || "", testing: !stable && Boolean(v.tag), releases: m.versions.length };
   });
 }
 
