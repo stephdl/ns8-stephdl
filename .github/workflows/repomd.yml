@@ -19,6 +19,8 @@ jobs:
 
     - id: lpublish
       name: "Publish metadata on GitHub"
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         git config user.name nethbot
         git config user.email nethbot@nethesis.it
@@ -28,7 +30,26 @@ jobs:
         mkdir -vp .dst/ns8/updates/
         mv -v repodata.json .dst/ns8/updates
         cp -av $(ls -d */) .dst/ns8/updates/
-        cp -v README.md .dst/index.md
+        cp -av .site/. .dst/
+        sed -i "s/__GENERATED__/$(date -u +%Y-%m-%dT%H:%M:%SZ)/" .dst/index.html
+        touch .dst/.nojekyll
+        # The website hides its activity section when this file is missing, so a failed query must not stop the publish.
+        if ! gh api graphql -f login="${{ github.repository_owner }}" -f query='
+          query($login: String!) {
+            user(login: $login) {
+              contributionsCollection {
+                totalCommitContributions
+                totalPullRequestContributions
+                totalPullRequestReviewContributions
+                totalIssueContributions
+                restrictedContributionsCount
+                contributionCalendar { totalContributions weeks { contributionDays { date contributionCount } } }
+              }
+            }
+          }' | jq '.data.user.contributionsCollection + {updated: (now | todate)}' > .dst/activity.json; then
+          echo "::warning::GitHub activity could not be collected"
+          rm -f .dst/activity.json
+        fi
         echo forge.de-labrusse.fr > .dst/CNAME
         git add .dst/
         TREE=$(git write-tree --prefix=.dst)
