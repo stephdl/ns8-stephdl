@@ -730,7 +730,8 @@ Promise.all([
   MODULES = modules;
   ACTIVITY = activity;
 }).catch((e) => console.error(e)).finally(() => {
-  setLang(saved || (navigator.language || "en").slice(0, 2));
+  const preferred = (navigator.languages || [navigator.language || "en"]).map((l) => l.slice(0, 2)).find((l) => UI[l]);
+  setLang(saved || preferred || "en");
 });
 </script>
 </body>
