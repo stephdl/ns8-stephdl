@@ -162,6 +162,8 @@ h2 { font-size: 19px; font-weight: 650; }
 .card p { margin: 0; color: var(--text-dim); font-size: 13px; flex: 1; }
 .links { display: flex; gap: 16px; font-size: 13px; border-top: 1px solid var(--border); padding-top: 12px; }
 .empty { color: var(--text-faint); padding: 24px 0; }
+.more { display: flex; margin: 18px auto 0; }
+.more[hidden] { display: none; }
 
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 18px; }
 .stat { padding: 16px 18px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius); }
@@ -339,6 +341,7 @@ footer nav { display: flex; gap: 18px; }
       </div>
       <div class="chips" id="chips"></div>
       <div class="grid" id="grid"></div>
+      <button class="btn more" id="more" type="button" hidden></button>
     </div>
   </section>
 
@@ -409,7 +412,7 @@ const UI = {
     copy: "Copy", copied: "Copied",
     howTo: "How to add a software repository",
     modulesTitle: "Modules", modulesCount: "{n} modules available. Metadata refresh every 6 hours.",
-    search: "Search a module", all: "All", noMatch: "No module matches your search.",
+    search: "Search a module", all: "All", noMatch: "No module matches your search.", showAll: "Show all {n} modules",
     code: "Code", docs: "Docs", bugs: "Bugs", testing: "testing",
     activityTitle: "GitHub activity", activitySub: "{n} contributions in the last 12 months, {p} of them in private repositories.", reviews: "Reviews",
     githubProfile: "GitHub profile",
@@ -439,7 +442,7 @@ const UI = {
     copy: "Copier", copied: "Copié",
     howTo: "Comment ajouter un dépôt logiciel",
     modulesTitle: "Modules", modulesCount: "{n} modules disponibles. Métadonnées mises à jour toutes les 6 heures.",
-    search: "Chercher un module", all: "Tous", noMatch: "Aucun module ne correspond à la recherche.",
+    search: "Chercher un module", all: "Tous", noMatch: "Aucun module ne correspond à la recherche.", showAll: "Voir les {n} modules",
     code: "Code", docs: "Docs", bugs: "Bugs", testing: "test",
     activityTitle: "Activité GitHub", activitySub: "{n} contributions sur les 12 derniers mois, dont {p} dans des dépôts privés.", reviews: "Reviews",
     githubProfile: "Profil GitHub",
@@ -469,7 +472,7 @@ const UI = {
     copy: "Copia", copied: "Copiato",
     howTo: "Come aggiungere un repository software",
     modulesTitle: "Moduli", modulesCount: "{n} moduli disponibili. Metadati aggiornati ogni 6 ore.",
-    search: "Cerca un modulo", all: "Tutti", noMatch: "Nessun modulo corrisponde alla ricerca.",
+    search: "Cerca un modulo", all: "Tutti", noMatch: "Nessun modulo corrisponde alla ricerca.", showAll: "Mostra tutti i {n} moduli",
     code: "Codice", docs: "Docs", bugs: "Bug", testing: "testing",
     activityTitle: "Attività GitHub", activitySub: "{n} contributi negli ultimi 12 mesi, di cui {p} in repository privati.", reviews: "Review",
     githubProfile: "Profilo GitHub",
@@ -499,7 +502,7 @@ const UI = {
     copy: "Kopieren", copied: "Kopiert",
     howTo: "Ein Software-Repository hinzufügen",
     modulesTitle: "Module", modulesCount: "{n} Module verfügbar. Metadaten werden alle 6 Stunden aktualisiert.",
-    search: "Modul suchen", all: "Alle", noMatch: "Kein Modul passt zur Suche.",
+    search: "Modul suchen", all: "Alle", noMatch: "Kein Modul passt zur Suche.", showAll: "Alle {n} Module anzeigen",
     code: "Code", docs: "Doku", bugs: "Fehler", testing: "Test",
     activityTitle: "GitHub-Aktivität", activitySub: "{n} Beiträge in den letzten 12 Monaten, davon {p} in privaten Repositories.", reviews: "Reviews",
     githubProfile: "GitHub-Profil",
@@ -529,7 +532,7 @@ const UI = {
     copy: "Copiar", copied: "Copiado",
     howTo: "Cómo añadir un repositorio de software",
     modulesTitle: "Módulos", modulesCount: "{n} módulos disponibles. Metadatos actualizados cada 6 horas.",
-    search: "Buscar un módulo", all: "Todos", noMatch: "Ningún módulo coincide con la búsqueda.",
+    search: "Buscar un módulo", all: "Todos", noMatch: "Ningún módulo coincide con la búsqueda.", showAll: "Ver los {n} módulos",
     code: "Código", docs: "Docs", bugs: "Errores", testing: "pruebas",
     activityTitle: "Actividad en GitHub", activitySub: "{n} contribuciones en los últimos 12 meses, {p} de ellas en repositorios privados.", reviews: "Revisiones",
     githubProfile: "Perfil de GitHub",
@@ -551,7 +554,10 @@ const UI = {
 };
 
 const PRODUCT_LINKS = { NethServer: "https://www.nethserver.org/", NethSecurity: "https://nethsecurity.org/" };
-const state = { lang: "en", cat: "all", q: "" };
+// Past this many modules the grid starts folded, so the sections below stay reachable.
+const FOLD_AFTER = 24;
+const FOLDED_COUNT = 12;
+const state = { lang: "en", cat: "all", q: "", expanded: false };
 const $ = (s) => document.querySelector(s);
 const t = (k) => UI[state.lang][k] ?? UI.en[k];
 const fmt = (s, vars) => s.replace(/\{(\w+)\}/g, (_, k) => vars[k]);
@@ -588,8 +594,12 @@ function renderModules() {
     .filter((m) => state.cat === "all" || catOf(m) === state.cat)
     .filter((m) => !q || (m.name + " " + (m.description[state.lang] || m.description.en)).toLowerCase().includes(q))
     .sort((a, b) => a.name.localeCompare(b.name));
+  // A search or a category already narrows the list, so it always shows every match.
+  const folded = !q && state.cat === "all" && !state.expanded && list.length > FOLD_AFTER;
+  $("#more").hidden = !folded;
+  $("#more").textContent = fmt(t("showAll"), { n: list.length });
   if (!list.length) { $("#grid").innerHTML = `<p class="empty">${esc(t("noMatch"))}</p>`; return; }
-  $("#grid").innerHTML = list.map((m) => `
+  $("#grid").innerHTML = (folded ? list.slice(0, FOLDED_COUNT) : list).map((m) => `
     <article class="card">
       <div class="card-head">
         <div class="logo">${m.logo ? `<img src="ns8/updates/${esc(m.id)}/${esc(m.logo)}" alt="" loading="lazy">` : ""}</div>
@@ -679,6 +689,7 @@ document.addEventListener("click", (e) => {
 });
 addEventListener("scroll", () => { $("#to-top").classList.toggle("show", scrollY > 600); }, { passive: true });
 $("#search").oninput = (e) => { state.q = e.target.value; renderModules(); };
+$("#more").onclick = () => { state.expanded = true; renderModules(); };
 $("#chips").onclick = (e) => {
   const b = e.target.closest(".chip");
   if (!b) return;
