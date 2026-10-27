@@ -1,0 +1,25 @@
+{
+  "name": "Launcher",
+  "description": {
+    "en": "A home page listing every application published on the cluster, public or behind an LDAP login.",
+    "fr": "Une page d'accueil qui liste toutes les applications publiées sur le cluster, publique ou derrière un login LDAP.",
+    "it": "Una home page con tutte le applicazioni pubblicate sul cluster, pubblica o protetta da login LDAP.",
+    "de": "Eine Startseite mit allen auf dem Cluster veröffentlichten Anwendungen, öffentlich oder hinter einem LDAP-Login.",
+    "es": "Una página de inicio con todas las aplicaciones publicadas en el clúster, pública o tras un inicio de sesión LDAP."
+  },
+  "categories": [
+    "collaboration"
+  ],
+  "authors": [
+    {
+      "name": "Stephane de Labrusse",
+      "email": "stephane.delabrusse@nethesis.it"
+    }
+  ],
+  "docs": {
+    "documentation_url": "https://github.com/stephdl/ns8-launcher#readme",
+    "bug_url": "https://github.com/stephdl/dev/issues",
+    "code_url": "https://github.com/stephdl/ns8-launcher"
+  },
+  "source": "ghcr.io/stephdl/launcher"
+}
