@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stephdl Forge</title>
+<meta name="description" content="NethServer 8 modules built and maintained by Stéphane de Labrusse.">
+<link rel="icon" type="image/jpeg" href="stephane.jpg">
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #0d1117;
+  --bg-raised: #161b22;
+  --bg-hover: #1c232d;
+  --border: #2a313c;
+  --text: #e6edf3;
+  --text-dim: #9aa5b1;
+  --text-faint: #6b7682;
+  --accent: #4cc2ff;
+  --accent-soft: rgba(76, 194, 255, 0.12);
+  --testing: #d29922;
+  --heat-0: #1a2029;
+  --heat-1: #0e3a52;
+  --heat-2: #136a95;
+  --heat-3: #2b9fd9;
+  --heat-4: #7fd6ff;
+  --paypal: #ffc439;
+  --paypal-hover: #f2ba36;
+  --radius: 10px;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.topbar {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: rgba(13, 17, 23, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.topbar .wrap { display: flex; gap: 20px; align-items: center; height: 56px; }
+.brand { display: flex; gap: 10px; align-items: center; color: var(--text); font-size: 17px; font-weight: 650; white-space: nowrap; }
+.brand:hover { text-decoration: none; }
+.brand-mark { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); }
+.nav { display: flex; gap: 18px; margin-left: auto; }
+.nav a { color: var(--text-dim); font-size: 14px; }
+.nav a:hover { color: var(--text); text-decoration: none; }
+select {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-raised);
+  color: var(--text);
+  font: inherit; font-size: 14px;
+}
+
+section { scroll-margin-top: calc(56px + env(safe-area-inset-top, 0px)); padding: 44px 0; border-bottom: 1px solid var(--border); }
+section:last-of-type { border-bottom: 0; }
+h1, h2, h3 { margin: 0; line-height: 1.2; }
+h2 { font-size: 19px; font-weight: 650; }
+.eyebrow { color: var(--text-faint); font: 600 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.section-head { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: end; justify-content: space-between; margin-bottom: 24px; }
+.section-head p { margin: 6px 0 0; color: var(--text-dim); }
+
+.hero { padding: 56px 0 44px; }
+.hero h1 { font-size: clamp(24px, 3.4vw, 34px); font-weight: 700; letter-spacing: -0.02em; }
+.hero .lead { color: var(--text-dim); font-size: 15px; max-width: 60ch; margin: 16px 0 28px; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 48px; align-items: center; }
+.hero-stats { display: grid; gap: 18px; margin: 0; padding-left: 28px; border-left: 1px solid var(--border); }
+.hero-stats div { display: flex; flex-direction: column; }
+.hero-stats dt { order: 2; color: var(--text-dim); font-size: 13px; }
+.hero-stats dd { margin: 0; font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.repo-box {
+  display: flex; align-items: center; gap: 8px;
+  max-width: 640px;
+  padding: 6px 6px 6px 14px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.repo-box code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font: 14px var(--mono); color: var(--text); }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-hover);
+  color: var(--text);
+  font: inherit; font-size: 14px; font-weight: 550;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn:hover { border-color: var(--text-faint); text-decoration: none; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #04121b; }
+.btn.primary:hover { background: #7fd6ff; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 14px; font-size: 14px; color: var(--text-faint); }
+.hero-meta code { font-family: var(--mono); font-size: 13px; color: var(--text-dim); }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.toolbar input {
+  width: 240px; max-width: 100%;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-raised);
+  color: var(--text);
+  font: inherit; font-size: 14px;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+.chip {
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit; font-size: 13px;
+  cursor: pointer;
+}
+.chip:hover { color: var(--text); }
+.chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.card {
+  display: flex; flex-direction: column; gap: 12px;
+  padding: 18px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.card:hover { border-color: #3a4350; }
+.card-head { display: flex; gap: 14px; align-items: center; }
+.logo {
+  width: 48px; height: 48px; flex: none;
+  display: grid; place-items: center;
+  border-radius: 10px;
+  background: #f4f6f8;
+  padding: 6px;
+}
+.logo img { max-width: 100%; max-height: 100%; }
+.card h3 { font-size: 15px; font-weight: 650; }
+.meta { display: flex; gap: 8px; align-items: center; margin-top: 3px; font-size: 13px; color: var(--text-faint); }
+.meta .ver { font-family: var(--mono); color: var(--text); font-size: 13px; }
+.badge { padding: 1px 7px; border-radius: 999px; background: var(--bg-hover); border: 1px solid var(--border); }
+.badge.testing { color: var(--testing); border-color: rgba(210, 153, 34, .4); }
+.card p { margin: 0; color: var(--text-dim); font-size: 14px; flex: 1; }
+.links { display: flex; align-items: baseline; gap: 16px; font-size: 14px; border-top: 1px solid var(--border); padding-top: 12px; }
+.links .when { margin-left: auto; color: var(--text-dim); font-size: 13px; white-space: nowrap; }
+.empty { color: var(--text-faint); padding: 24px 0; }
+.more { display: flex; margin: 18px auto 0; }
+.more[hidden] { display: none; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 18px; }
+.stat { padding: 16px 18px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius); }
+.stat b { display: block; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.stat span { color: var(--text-dim); font-size: 13px; }
+.heat-panel { padding: 18px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius); }
+.heat-scroll { overflow-x: auto; padding-bottom: 4px; }
+.heat { display: grid; grid-auto-flow: column; grid-template-rows: 16px repeat(7, auto); grid-auto-columns: minmax(0, 1fr); gap: 3px; min-width: 740px; }
+.heat .d { aspect-ratio: 1; }
+.heat .m { grid-row: 1; font-size: 11px; color: var(--text-faint); white-space: nowrap; line-height: 16px; }
+.heat .d { border-radius: 2px; background: var(--heat-0); }
+.heat .d[data-l="1"] { background: var(--heat-1); }
+.heat .d[data-l="2"] { background: var(--heat-2); }
+.heat .d[data-l="3"] { background: var(--heat-3); }
+.heat .d[data-l="4"] { background: var(--heat-4); }
+.heat-foot { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; margin-top: 12px; font-size: 12px; color: var(--text-faint); }
+.legend { display: flex; gap: 3px; align-items: center; }
+.legend i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
+
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.panel { padding: 24px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--radius); display: flex; flex-direction: column; gap: 14px; }
+.panel p { margin: 0; color: var(--text-dim); }
+.person { display: flex; gap: 14px; align-items: center; }
+.person img { width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--border); flex: none; }
+.person b { display: block; font-weight: 650; }
+.person span { color: var(--text-dim); font-size: 14px; }
+.pro {
+  align-self: flex-start;
+  margin-top: auto;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 26px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font-weight: 650; font-size: 14px;
+}
+.pro::after { content: "\2192"; }
+.pro:hover { background: var(--accent-soft); text-decoration: none; }
+.contacts { display: grid; grid-template-columns: auto 1fr; gap: 8px 18px; margin: 4px 0 0; font-size: 14px; }
+.contacts dt { color: var(--text-faint); }
+.contacts dd { margin: 0; overflow-wrap: anywhere; }
+.other-help { font-size: 13px; color: var(--text-faint) !important; }
+.paypal {
+  align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 26px;
+  border-radius: 999px;
+  background: var(--paypal);
+  color: #111;
+  font-weight: 650; font-size: 14px;
+  margin-top: auto;
+}
+.paypal:hover { background: var(--paypal-hover); text-decoration: none; }
+.paypal img { height: 20px; display: block; }
+
+.index-cta { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between; }
+.index-cta p { margin: 6px 0 0; color: var(--text-dim); max-width: 62ch; }
+
+.to-top {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right, 0px));
+  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--bg-raised);
+  color: var(--text);
+  font-size: 18px;
+  opacity: 0; pointer-events: none;
+}
+.to-top.show { opacity: 1; pointer-events: auto; }
+.to-top:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+footer { border-top: 1px solid var(--border); padding: 28px 0 40px; color: var(--text-faint); font-size: 13px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 24px; justify-content: space-between; }
+footer nav { display: flex; gap: 18px; }
+
+@media (max-width: 760px) {
+  .nav { display: none; }
+  #lang { margin-left: auto; }
+  .split { grid-template-columns: 1fr; }
+  .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .hero-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 18px 0 0; border-left: 0; border-top: 1px solid var(--border); }
+  .hero-stats dd { font-size: 20px; }
+  .hero { padding: 48px 0 40px; }
+  section { padding: 40px 0; }
+  .panel { padding: 20px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+  .to-top { transition: opacity .2s; }
+  .card, .btn, .chip { transition: border-color .15s, background .15s, color .15s; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#top"><img class="brand-mark" src="stephane.jpg" alt=""><span>Stephdl Forge</span></a>
+    <nav class="nav">
+      <a href="#top" data-i="navHome"></a>
+      <a href="#services" data-i="navServices"></a>
+      <a href="#modules" data-i="navModules"></a>
+      <a href="#activity" data-i="navActivity" id="nav-activity"></a>
+    </nav>
+    <select id="lang" aria-label="Language">
+      <option value="en">EN</option>
+      <option value="fr">FR</option>
+      <option value="it">IT</option>
+      <option value="de">DE</option>
+      <option value="es">ES</option>
+    </select>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+      <h1 data-i="title"></h1>
+      <p class="lead" data-i="lead" data-link></p>
+      <div class="repo-box">
+        <code id="repo-url">https://forge.de-labrusse.fr/ns8/updates/</code>
+        <button class="btn primary" id="copy" type="button" data-i="copy"></button>
+      </div>
+      <div class="hero-meta">
+        <a href="https://docs.nethserver.org/projects/ns8/en/latest/modules.html#software-repositories" target="_blank" rel="noopener" data-i="howTo"></a>
+      </div>
+      </div>
+      <dl class="hero-stats" id="hero-stats"></dl>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap split">
+      <div class="panel">
+        <div class="eyebrow" data-i="servicesEyebrow"></div>
+        <h2 data-i="servicesTitle"></h2>
+        <div class="person">
+          <img src="stephane.jpg" alt="Stéphane de Labrusse" width="64" height="64">
+          <div><b>Stéphane de Labrusse</b><span data-i="role"></span></div>
+        </div>
+        <p data-i="servicesText" data-link></p>
+        <dl class="contacts">
+          <dt data-i="email"></dt><dd><a href="mailto:stephdl@de-labrusse.fr">stephdl@de-labrusse.fr</a></dd>
+          <dt data-i="phone"></dt><dd><a href="tel:+33675291918">+33 6 75 29 19 18</a></dd>
+          <dt>Telegram</dt><dd><a href="https://t.me/stephane_de_labrusse" target="_blank" rel="noopener">@stephane_de_labrusse</a></dd>
+          <dt data-i="website"></dt><dd><a href="https://stephane.de-labrusse.fr" target="_blank" rel="noopener">stephane.de-labrusse.fr</a></dd>
+        </dl>
+        <a class="pro" href="https://stephane.de-labrusse.fr" target="_blank" rel="noopener" data-i="proSite"></a>
+      </div>
+      <div class="panel" id="support">
+        <div class="eyebrow" data-i="supportEyebrow"></div>
+        <h2 data-i="supportTitle"></h2>
+        <p data-i="supportText"></p>
+        <p data-i="supportRecurring"></p>
+        <p class="other-help" data-i="otherHelp"></p>
+        <a class="paypal" href="https://paypal.me/sdelabrusse" target="_blank" rel="noopener">
+          <span data-i="donate"></span><img src="paypal.svg" alt="PayPal">
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="modules">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2 data-i="modulesTitle"></h2>
+          <p id="modules-count"></p>
+        </div>
+        <div class="toolbar">
+          <input id="search" type="search" autocomplete="off" spellcheck="false" aria-label="Search">
+        </div>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="grid" id="grid"></div>
+      <button class="btn more" id="more" type="button" hidden></button>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap index-cta">
+      <div>
+        <h2 data-i="indexTitle"></h2>
+        <p data-i="indexText"></p>
+      </div>
+      <a class="btn" href="https://stephdl.github.io/ns8-apps/" target="_blank" rel="noopener" data-i="indexBtn"></a>
+    </div>
+  </section>
+
+  <section id="activity">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <h2 data-i="activityTitle"></h2>
+          <p id="activity-sub"></p>
+        </div>
+        <a class="btn" href="https://github.com/stephdl" target="_blank" rel="noopener" data-i="githubProfile"></a>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="heat-panel">
+        <div class="heat-scroll"><div class="heat" id="heat"></div></div>
+        <div class="heat-foot">
+          <span></span>
+          <span class="legend"><span data-i="less"></span>&nbsp;<i style="background:var(--heat-0)"></i><i style="background:var(--heat-1)"></i><i style="background:var(--heat-2)"></i><i style="background:var(--heat-3)"></i><i style="background:var(--heat-4)"></i>&nbsp;<span data-i="more"></span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+
+<a class="to-top" href="#top" id="to-top" aria-label="Top">↑</a>
+
+<footer>
+  <div class="wrap">
+    <span id="generated"></span>
+    <nav>
+      <a href="https://github.com/stephdl/dev/issues" target="_blank" rel="noopener" data-i="bug"></a>
+      <a href="https://github.com/stephdl/ns8-stephdl" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://forge.de-labrusse.fr/ns8/updates/repodata.json" target="_blank" rel="noopener">repodata.json</a>
+      <a href="https://raw.githubusercontent.com/stephdl/ns8-stephdl/repomd/ns8/updates/" target="_blank" rel="noopener" data-i="mirror"></a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+// The repomd workflow replaces this placeholder with the publish time.
+const GENERATED = "2026-10-31T12:46:46Z";
+// Creation date of the stephdl GitHub account.
+const GITHUB_SINCE = Date.UTC(2013, 0, 1);
+let MODULES = [];
+let ACTIVITY = null;
+
+const UI = {
+  en: {
+    generated: "Generated on {d}.",
+    navHome: "Home",
+    heroModules: "modules", heroYears: "{n} years", heroYearsLabel: "of free software on GitHub", heroReleases: "releases published", otherHelp: "Not a donor? A star on GitHub, a bug report or a translation helps too.", mirror: "Mirror",
+    role: "Developer and system administrator, NethServer and NethSecurity",
+    navModules: "Modules", navActivity: "Activity", navServices: "Services",
+    title: "NS8 modules by Stéphane de Labrusse",
+    lead: "Free and open source apps for NethServer 8. Add this repository to your cluster, then install the modules from the Software Center.",
+    copy: "Copy", copied: "Copied",
+    howTo: "How to add a software repository",
+    modulesTitle: "Modules", modulesCount: "{n} modules available. Metadata refresh every 6 hours.",
+    search: "Search a module", all: "All", noMatch: "No module matches your search.", showAll: "Show all {n} modules",
+    code: "Code", docs: "Docs", bugs: "Bugs", testing: "testing", published: "Released {d}",
+    activityTitle: "GitHub activity", activitySub: "{n} contributions in the last 12 months, {p} of them in private repositories.", reviews: "Reviews",
+    githubProfile: "GitHub profile",
+    commits: "Commits", prs: "Pull requests", issues: "Issues",
+    less: "Less", more: "More", dayTip: "{n} contributions on {d}",
+    servicesEyebrow: "Freelance", servicesTitle: "Need help with NethServer or NethSecurity?",
+    servicesText: "I can fix your issues on NethServer and NethSecurity, package an application as a NethServer module, or write the code you are missing.", proSite: "See my services",
+    email: "Email", phone: "Phone", website: "Website",
+    supportEyebrow: "Donation", supportTitle: "Support this work",
+    supportText: "I build these modules in my free time and I pay the servers myself. The software is free for you. The hardware is not. If my work helps you, a donation keeps it going.",
+    supportRecurring: "You earn your living with these modules? Please consider a recurring donation. Every euro makes a difference.",
+    donate: "Donate with",
+    indexTitle: "Looking for more NS8 apps?",
+    indexText: "The NS8 App Index lists every NethServer 8 app from official and community repositories, in one searchable catalog.",
+    indexBtn: "Open the NS8 App Index",
+    bug: "Report a bug",
+    cat: { all: "All", collaboration: "Collaboration", security: "Security", monitoring: "Monitoring", database: "Database", communication: "Communication", other: "Other" }
+  },
+  fr: {
+    generated: "Généré le {d}.",
+    navHome: "Accueil",
+    heroModules: "modules", heroYears: "{n} ans", heroYearsLabel: "de logiciel libre sur GitHub", heroReleases: "releases publiées", otherHelp: "Pas de don possible ? Une étoile sur GitHub, un rapport de bug ou une traduction aident aussi.", mirror: "Miroir",
+    role: "Développeur et administrateur système, NethServer et NethSecurity",
+    navModules: "Modules", navActivity: "Activité", navServices: "Services",
+    title: "Modules NS8 par Stéphane de Labrusse",
+    lead: "Des applications libres pour NethServer 8. Ajoutez ce dépôt à votre cluster, puis installez les modules depuis le Software Center.",
+    copy: "Copier", copied: "Copié",
+    howTo: "Comment ajouter un dépôt logiciel",
+    modulesTitle: "Modules", modulesCount: "{n} modules disponibles. Métadonnées mises à jour toutes les 6 heures.",
+    search: "Chercher un module", all: "Tous", noMatch: "Aucun module ne correspond à la recherche.", showAll: "Voir les {n} modules",
+    code: "Code", docs: "Docs", bugs: "Bugs", testing: "test", published: "Publiée {d}",
+    activityTitle: "Activité GitHub", activitySub: "{n} contributions sur les 12 derniers mois, dont {p} dans des dépôts privés.", reviews: "Reviews",
+    githubProfile: "Profil GitHub",
+    commits: "Commits", prs: "Pull requests", issues: "Issues",
+    less: "Moins", more: "Plus", dayTip: "{n} contributions le {d}",
+    servicesEyebrow: "Freelance", servicesTitle: "Besoin d'aide avec NethServer ou NethSecurity ?",
+    servicesText: "Je peux corriger vos problèmes sur NethServer et NethSecurity, packager une application en module NethServer ou écrire le code qui vous manque.", proSite: "Voir mes services",
+    email: "Email", phone: "Téléphone", website: "Site web",
+    supportEyebrow: "Donation", supportTitle: "Soutenir ce travail",
+    supportText: "Je développe ces modules sur mon temps libre et je paie les serveurs moi-même. Les logiciels sont gratuits pour vous. Le matériel ne l'est pas. Si mon travail vous aide, un don permet de continuer.",
+    supportRecurring: "Vous gagnez votre vie avec ces modules ? Pensez au don récurrent. Chaque euro compte.",
+    donate: "Faire un don avec",
+    indexTitle: "Vous cherchez d'autres applications NS8 ?",
+    indexText: "Le NS8 App Index liste toutes les applications NethServer 8 des dépôts officiels et communautaires, dans un seul catalogue.",
+    indexBtn: "Ouvrir le NS8 App Index",
+    bug: "Signaler un bug",
+    cat: { all: "Tous", collaboration: "Collaboration", security: "Sécurité", monitoring: "Supervision", database: "Base de données", communication: "Communication", other: "Autre" }
+  },
+  it: {
+    generated: "Generato il {d}.",
+    navHome: "Home",
+    heroModules: "moduli", heroYears: "{n} anni", heroYearsLabel: "di software libero su GitHub", heroReleases: "release pubblicate", otherHelp: "Non puoi donare? Una stella su GitHub, una segnalazione di bug o una traduzione aiutano lo stesso.", mirror: "Mirror",
+    role: "Sviluppatore e amministratore di sistema, NethServer e NethSecurity",
+    navModules: "Moduli", navActivity: "Attività", navServices: "Servizi",
+    title: "Moduli NS8 di Stéphane de Labrusse",
+    lead: "Applicazioni libere per NethServer 8. Aggiungi questo repository al tuo cluster, poi installa i moduli dal Software Center.",
+    copy: "Copia", copied: "Copiato",
+    howTo: "Come aggiungere un repository software",
+    modulesTitle: "Moduli", modulesCount: "{n} moduli disponibili. Metadati aggiornati ogni 6 ore.",
+    search: "Cerca un modulo", all: "Tutti", noMatch: "Nessun modulo corrisponde alla ricerca.", showAll: "Mostra tutti i {n} moduli",
+    code: "Codice", docs: "Docs", bugs: "Bug", testing: "testing", published: "Pubblicata {d}",
+    activityTitle: "Attività GitHub", activitySub: "{n} contributi negli ultimi 12 mesi, di cui {p} in repository privati.", reviews: "Review",
+    githubProfile: "Profilo GitHub",
+    commits: "Commit", prs: "Pull request", issues: "Issue",
+    less: "Meno", more: "Più", dayTip: "{n} contributi il {d}",
+    servicesEyebrow: "Freelance", servicesTitle: "Serve aiuto con NethServer o NethSecurity?",
+    servicesText: "Posso risolvere i tuoi problemi su NethServer e NethSecurity, pacchettizzare un'applicazione come modulo NethServer o scrivere il codice che ti manca.", proSite: "Scopri i miei servizi",
+    email: "Email", phone: "Telefono", website: "Sito web",
+    supportEyebrow: "Donazione", supportTitle: "Sostieni questo lavoro",
+    supportText: "Sviluppo questi moduli nel tempo libero e pago i server di tasca mia. Il software è gratuito per te. L'hardware no. Se il mio lavoro ti è utile, una donazione mi permette di continuare.",
+    supportRecurring: "Ti guadagni da vivere con questi moduli? Considera una donazione ricorrente. Ogni euro fa la differenza.",
+    donate: "Dona con",
+    indexTitle: "Cerchi altre app per NS8?",
+    indexText: "NS8 App Index elenca tutte le app NethServer 8 dei repository ufficiali e della community, in un unico catalogo.",
+    indexBtn: "Apri NS8 App Index",
+    bug: "Segnala un bug",
+    cat: { all: "Tutti", collaboration: "Collaborazione", security: "Sicurezza", monitoring: "Monitoraggio", database: "Database", communication: "Comunicazione", other: "Altro" }
+  },
+  de: {
+    generated: "Erstellt am {d}.",
+    navHome: "Start",
+    heroModules: "Module", heroYears: "{n} Jahre", heroYearsLabel: "freie Software auf GitHub", heroReleases: "veröffentlichte Releases", otherHelp: "Keine Spende möglich? Ein Stern auf GitHub, ein Fehlerbericht oder eine Übersetzung helfen auch.", mirror: "Spiegel",
+    role: "Entwickler und Systemadministrator, NethServer und NethSecurity",
+    navModules: "Module", navActivity: "Aktivität", navServices: "Dienstleistungen",
+    title: "NS8-Module von Stéphane de Labrusse",
+    lead: "Freie Anwendungen für NethServer 8. Füge dieses Repository deinem Cluster hinzu und installiere die Module im Software Center.",
+    copy: "Kopieren", copied: "Kopiert",
+    howTo: "Ein Software-Repository hinzufügen",
+    modulesTitle: "Module", modulesCount: "{n} Module verfügbar. Metadaten werden alle 6 Stunden aktualisiert.",
+    search: "Modul suchen", all: "Alle", noMatch: "Kein Modul passt zur Suche.", showAll: "Alle {n} Module anzeigen",
+    code: "Code", docs: "Doku", bugs: "Fehler", testing: "Test", published: "Veröffentlicht {d}",
+    activityTitle: "GitHub-Aktivität", activitySub: "{n} Beiträge in den letzten 12 Monaten, davon {p} in privaten Repositories.", reviews: "Reviews",
+    githubProfile: "GitHub-Profil",
+    commits: "Commits", prs: "Pull Requests", issues: "Issues",
+    less: "Weniger", more: "Mehr", dayTip: "{n} Beiträge am {d}",
+    servicesEyebrow: "Freelance", servicesTitle: "Hilfe mit NethServer oder NethSecurity?",
+    servicesText: "Ich behebe deine Probleme mit NethServer und NethSecurity, paketiere eine Anwendung als NethServer-Modul oder schreibe den Code, der dir fehlt.", proSite: "Meine Dienstleistungen",
+    email: "E-Mail", phone: "Telefon", website: "Webseite",
+    supportEyebrow: "Spende", supportTitle: "Diese Arbeit unterstützen",
+    supportText: "Ich entwickle diese Module in meiner Freizeit und bezahle die Server selbst. Die Software ist für dich kostenlos. Die Hardware nicht. Wenn dir meine Arbeit hilft, hält eine Spende sie am Laufen.",
+    supportRecurring: "Du verdienst mit diesen Modulen dein Geld? Denk an eine regelmäßige Spende. Jeder Euro zählt.",
+    donate: "Spenden mit",
+    indexTitle: "Suchst du weitere NS8-Apps?",
+    indexText: "Der NS8 App Index listet alle NethServer-8-Apps aus offiziellen und Community-Repositories in einem durchsuchbaren Katalog.",
+    indexBtn: "NS8 App Index öffnen",
+    bug: "Fehler melden",
+    cat: { all: "Alle", collaboration: "Zusammenarbeit", security: "Sicherheit", monitoring: "Überwachung", database: "Datenbank", communication: "Kommunikation", other: "Sonstiges" }
+  },
+  es: {
+    generated: "Generado el {d}.",
+    navHome: "Inicio",
+    heroModules: "módulos", heroYears: "{n} años", heroYearsLabel: "de software libre en GitHub", heroReleases: "versiones publicadas", otherHelp: "¿No puedes donar? Una estrella en GitHub, un informe de error o una traducción también ayudan.", mirror: "Espejo",
+    role: "Desarrollador y administrador de sistemas, NethServer y NethSecurity",
+    navModules: "Módulos", navActivity: "Actividad", navServices: "Servicios",
+    title: "Módulos NS8 de Stéphane de Labrusse",
+    lead: "Aplicaciones libres para NethServer 8. Añade este repositorio a tu clúster y luego instala los módulos desde el Software Center.",
+    copy: "Copiar", copied: "Copiado",
+    howTo: "Cómo añadir un repositorio de software",
+    modulesTitle: "Módulos", modulesCount: "{n} módulos disponibles. Metadatos actualizados cada 6 horas.",
+    search: "Buscar un módulo", all: "Todos", noMatch: "Ningún módulo coincide con la búsqueda.", showAll: "Ver los {n} módulos",
+    code: "Código", docs: "Docs", bugs: "Errores", testing: "pruebas", published: "Publicada {d}",
+    activityTitle: "Actividad en GitHub", activitySub: "{n} contribuciones en los últimos 12 meses, {p} de ellas en repositorios privados.", reviews: "Revisiones",
+    githubProfile: "Perfil de GitHub",
+    commits: "Commits", prs: "Pull requests", issues: "Issues",
+    less: "Menos", more: "Más", dayTip: "{n} contribuciones el {d}",
+    servicesEyebrow: "Freelance", servicesTitle: "¿Necesitas ayuda con NethServer o NethSecurity?",
+    servicesText: "Puedo resolver tus problemas en NethServer y NethSecurity, empaquetar una aplicación como módulo de NethServer o escribir el código que te falta.", proSite: "Ver mis servicios",
+    email: "Email", phone: "Teléfono", website: "Sitio web",
+    supportEyebrow: "Donación", supportTitle: "Apoya este trabajo",
+    supportText: "Desarrollo estos módulos en mi tiempo libre y pago los servidores de mi bolsillo. El software es gratis para ti. El hardware no. Si mi trabajo te ayuda, una donación permite seguir.",
+    supportRecurring: "¿Te ganas la vida con estos módulos? Piensa en una donación recurrente. Cada euro cuenta.",
+    donate: "Donar con",
+    indexTitle: "¿Buscas más aplicaciones para NS8?",
+    indexText: "NS8 App Index reúne todas las aplicaciones de NethServer 8 de los repositorios oficiales y de la comunidad, en un solo catálogo.",
+    indexBtn: "Abrir NS8 App Index",
+    bug: "Informar de un error",
+    cat: { all: "Todos", collaboration: "Colaboración", security: "Seguridad", monitoring: "Monitorización", database: "Base de datos", communication: "Comunicación", other: "Otros" }
+  }
+};
+
+const PRODUCT_LINKS = { NethServer: "https://www.nethserver.org/", NethSecurity: "https://nethsecurity.org/" };
+// Past this many modules the grid starts folded, so the sections below stay reachable.
+const FOLD_AFTER = 24;
+const FOLDED_COUNT = 12;
+const state = { lang: "en", cat: "all", q: "", expanded: false };
+const $ = (s) => document.querySelector(s);
+const t = (k) => UI[state.lang][k] ?? UI.en[k];
+const fmt = (s, vars) => s.replace(/\{(\w+)\}/g, (_, k) => vars[k]);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const nf = () => new Intl.NumberFormat(state.lang);
+const catOf = (m) => m.categories[0] || "other";
+const longDate = (iso) => new Intl.DateTimeFormat(state.lang, { dateStyle: "long" }).format(new Date(iso));
+function ago(iso) {
+  const days = Math.round((new Date(iso) - Date.now()) / 86400000);
+  const rtf = new Intl.RelativeTimeFormat(state.lang, { numeric: "auto" });
+  if (Math.abs(days) < 30) return rtf.format(days, "day");
+  if (Math.abs(days) < 365) return rtf.format(Math.round(days / 30), "month");
+  return rtf.format(Math.round(days / 365), "year");
+}
+
+function renderStatic() {
+  document.querySelectorAll("[data-i]").forEach((el) => { el.textContent = t(el.dataset.i); });
+  document.querySelectorAll("[data-link]").forEach((el) => {
+    const seen = new Set();
+    el.innerHTML = esc(el.textContent).replace(/NethServer(?: 8)?|NethSecurity/g, (w) => {
+      const key = w.split(" ")[0];
+      return seen.has(key) ? w : (seen.add(key), `<a href="${PRODUCT_LINKS[key]}" target="_blank" rel="noopener">${w}</a>`);
+    });
+  });
+  $("#search").placeholder = t("search");
+  const built = new Date(GENERATED);
+  $("#generated").textContent = isNaN(built) ? "" : fmt(t("generated"), {
+    d: new Intl.DateTimeFormat(state.lang, { dateStyle: "long", timeStyle: "short", timeZone: "UTC" }).format(built) + " UTC"
+  });
+  $("#modules-count").textContent = fmt(t("modulesCount"), { n: MODULES.length });
+}
+
+function renderChips() {
+  const cats = ["all", ...new Set(MODULES.map(catOf).sort((a, b) => (a === "other") - (b === "other") || a.localeCompare(b)))];
+  $("#chips").innerHTML = cats.map((c) =>
+    `<button class="chip" type="button" data-cat="${c}" aria-pressed="${c === state.cat}">${esc(t("cat")[c] || c)}</button>`).join("");
+}
+
+function renderModules() {
+  const q = state.q.trim().toLowerCase();
+  const list = MODULES
+    .filter((m) => state.cat === "all" || catOf(m) === state.cat)
+    .filter((m) => !q || (m.name + " " + (m.description[state.lang] || m.description.en)).toLowerCase().includes(q))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  // A search or a category already narrows the list, so it always shows every match.
+  const folded = !q && state.cat === "all" && !state.expanded && list.length > FOLD_AFTER;
+  $("#more").hidden = !folded;
+  $("#more").textContent = fmt(t("showAll"), { n: list.length });
+  if (!list.length) { $("#grid").innerHTML = `<p class="empty">${esc(t("noMatch"))}</p>`; return; }
+  $("#grid").innerHTML = (folded ? list.slice(0, FOLDED_COUNT) : list).map((m) => `
+    <article class="card">
+      <div class="card-head">
+        <div class="logo">${m.logo ? `<img src="ns8/updates/${esc(m.id)}/${esc(m.logo)}" alt="" loading="lazy">` : ""}</div>
+        <div>
+          <h3>${esc(m.name)}</h3>
+          <div class="meta"><span class="ver">${esc(m.version)}</span>${m.testing ? `<span class="badge testing">${esc(t("testing"))}</span>` : ""}<span class="badge">${esc(t("cat")[catOf(m)] || catOf(m))}</span></div>
+        </div>
+      </div>
+      <p>${esc(m.description[state.lang] || m.description.en)}</p>
+      <div class="links">
+        <a href="${esc(m.docs.code_url)}" target="_blank" rel="noopener">${esc(t("code"))}</a>
+        <a href="${esc(m.docs.documentation_url)}" target="_blank" rel="noopener">${esc(t("docs"))}</a>
+        <a href="${esc(m.docs.bug_url)}" target="_blank" rel="noopener">${esc(t("bugs"))}</a>
+        ${m.created ? `<time class="when" datetime="${esc(m.created)}" title="${esc(longDate(m.created))}">${esc(fmt(t("published"), { d: ago(m.created) }))}</time>` : ""}
+      </div>
+    </article>`).join("");
+}
+
+function renderActivity() {
+  const hasActivity = Boolean(ACTIVITY);
+  $("#activity").hidden = !hasActivity;
+  $("#nav-activity").hidden = !hasActivity;
+  if (!hasActivity) return;
+  const n = nf();
+  const cal = ACTIVITY.calendar;
+  $("#activity-sub").textContent = fmt(t("activitySub"), { n: n.format(cal.total), p: n.format(ACTIVITY.private) });
+  const stats = [["commits", ACTIVITY.commits], ["prs", ACTIVITY.prs], ["reviews", ACTIVITY.reviews], ["issues", ACTIVITY.issues]];
+  $("#stats").innerHTML = stats.map(([k, v]) => `<div class="stat"><b>${n.format(v)}</b><span>${esc(t(k))}</span></div>`).join("");
+
+  // Quartiles of non-zero days, so one huge day does not wash out the rest of the year.
+  const counts = cal.days.map((d) => d[1]).filter((c) => c > 0).sort((a, b) => a - b);
+  const q = [0.25, 0.5, 0.75].map((p) => counts[Math.floor(p * (counts.length - 1))] || 1);
+  const level = (c) => (c === 0 ? 0 : c <= q[0] ? 1 : c <= q[1] ? 2 : c <= q[2] ? 3 : 4);
+  const dateFmt = new Intl.DateTimeFormat(state.lang, { day: "numeric", month: "long", year: "numeric" });
+  const monthFmt = new Intl.DateTimeFormat(state.lang, { month: "short" });
+
+  const first = new Date(cal.days[0][0] + "T00:00:00");
+  const offset = first.getDay();
+  let html = "";
+  let lastMonth = -1;
+  const weeks = Math.ceil((cal.days.length + offset) / 7);
+  for (let w = 0; w < weeks; w++) {
+    const idx = w * 7 - offset;
+    const day = cal.days[Math.max(idx, 0)];
+    const m = new Date(day[0] + "T00:00:00").getMonth();
+    const nextM = new Date(cal.days[Math.min(idx + 14, cal.days.length - 1)][0] + "T00:00:00").getMonth();
+    html += `<span class="m" style="grid-column:${w + 1}">${m !== lastMonth && m === nextM && w < weeks - 2 ? esc(monthFmt.format(new Date(day[0] + "T00:00:00"))) : ""}</span>`;
+    lastMonth = m;
+  }
+  cal.days.forEach(([d, c], i) => {
+    const pos = i + offset;
+    html += `<span class="d" data-l="${level(c)}" style="grid-column:${Math.floor(pos / 7) + 1};grid-row:${(pos % 7) + 2}" title="${esc(fmt(t("dayTip"), { n: c, d: dateFmt.format(new Date(d + "T00:00:00")) }))}"></span>`;
+  });
+  $("#heat").innerHTML = html;
+}
+
+function renderHero() {
+  const n = nf();
+  const releases = MODULES.reduce((sum, m) => sum + m.releases, 0);
+  const years = Math.floor((Date.now() - GITHUB_SINCE) / (365.25 * 24 * 3600 * 1000));
+  const items = [
+    [n.format(MODULES.length), "heroModules"],
+    [n.format(releases), "heroReleases"],
+    [fmt(t("heroYears"), { n: n.format(years) }), "heroYearsLabel"]
+  ];
+  $("#hero-stats").innerHTML = items.map(([v, k]) => `<div><dt>${esc(t(k))}</dt><dd>${esc(v)}</dd></div>`).join("");
+}
+
+function render() { renderStatic(); renderHero(); renderChips(); renderModules(); renderActivity(); }
+
+function setLang(lang) {
+  state.lang = UI[lang] ? lang : "en";
+  document.documentElement.lang = state.lang;
+  $("#lang").value = state.lang;
+  try { localStorage.setItem("lang", state.lang); } catch (e) { /* private mode */ }
+  render();
+}
+
+$("#lang").onchange = (e) => setLang(e.target.value);
+// Hash links do not always scroll inside the hosting frame, so in-page navigation is done by hand.
+document.addEventListener("click", (e) => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  e.preventDefault();
+  const id = a.getAttribute("href").slice(1);
+  if (id === "top") window.scrollTo({ top: 0 });
+  else document.getElementById(id)?.scrollIntoView();
+});
+addEventListener("scroll", () => { $("#to-top").classList.toggle("show", scrollY > 600); }, { passive: true });
+$("#search").oninput = (e) => { state.q = e.target.value; renderModules(); };
+$("#more").onclick = () => { state.expanded = true; renderModules(); };
+$("#chips").onclick = (e) => {
+  const b = e.target.closest(".chip");
+  if (!b) return;
+  state.cat = b.dataset.cat;
+  renderChips(); renderModules();
+};
+$("#copy").onclick = () => {
+  const url = $("#repo-url").textContent;
+  const done = () => { $("#copy").textContent = t("copied"); setTimeout(() => { $("#copy").textContent = t("copy"); }, 1600); };
+  const select = () => { const r = document.createRange(); r.selectNodeContents($("#repo-url")); getSelection().removeAllRanges(); getSelection().addRange(r); };
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, select); else select();
+};
+
+function toModules(repodata) {
+  return repodata.map((m) => {
+    const stable = m.versions.find((v) => !v.testing);
+    const v = stable || m.versions[0] || {};
+    return { id: m.id, name: m.name, description: m.description, categories: m.categories, docs: m.docs,
+      logo: m.logo, version: v.tag || "", created: v.created || null, testing: !stable && Boolean(v.tag), releases: m.versions.length };
+  });
+}
+
+// activity.json is the raw contributionsCollection written by the repomd workflow.
+function toActivity(c) {
+  return {
+    updated: c.updated,
+    commits: c.totalCommitContributions,
+    prs: c.totalPullRequestContributions,
+    reviews: c.totalPullRequestReviewContributions,
+    issues: c.totalIssueContributions,
+    private: c.restrictedContributionsCount,
+    calendar: {
+      total: c.contributionCalendar.totalContributions,
+      days: c.contributionCalendar.weeks.flatMap((w) => w.contributionDays.map((d) => [d.date, d.contributionCount]))
+    }
+  };
+}
+
+const getJSON = (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(url + ": " + r.status))));
+
+let saved = null;
+try { saved = localStorage.getItem("lang"); } catch (e) { /* private mode */ }
+
+Promise.all([
+  getJSON("ns8/updates/repodata.json").then(toModules),
+  // The activity is a bonus: the page still works when the workflow could not collect it.
+  getJSON("activity.json").then(toActivity).catch(() => null)
+]).then(([modules, activity]) => {
+  MODULES = modules;
+  ACTIVITY = activity;
+}).catch((e) => console.error(e)).finally(() => {
+  const preferred = (navigator.languages || [navigator.language || "en"]).map((l) => l.slice(0, 2)).find((l) => UI[l]);
+  setLang(saved || preferred || "en");
+});
+</script>
+</body>
+</html>
