@@ -1,0 +1,23 @@
+{
+  "name": "Roadwarrior",
+  "description": {
+    "en": "OpenVPN road warrior server. Remote users reach the web apps and the file server of the node, and the web apps can be kept for the VPN clients only.",
+    "fr": "Serveur OpenVPN pour les utilisateurs nomades. Ils accèdent aux applications web et au serveur de fichiers du nœud, et les applications web peuvent être réservées aux clients VPN.",
+    "it": "Server OpenVPN per utenti in mobilità. Gli utenti remoti raggiungono le applicazioni web e il file server del nodo, e le applicazioni web possono essere riservate ai client VPN."
+  },
+  "categories": [
+    "security"
+  ],
+  "authors": [
+    {
+      "name": "Stephane de Labrusse",
+      "email": "stephdl@de-labrusse.fr"
+    }
+  ],
+  "docs": {
+    "documentation_url": "https://github.com/stephdl/ns8-roadwarrior#readme",
+    "bug_url": "https://github.com/stephdl/dev/issues",
+    "code_url": "https://github.com/stephdl/ns8-roadwarrior"
+  },
+  "source": "ghcr.io/stephdl/roadwarrior"
+}
