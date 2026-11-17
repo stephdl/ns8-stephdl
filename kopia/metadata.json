@@ -1,0 +1,28 @@
+{
+  "name": "Kopia",
+  "description": {
+    "en": "Kopia backup server for your Windows, Linux and macOS machines, with central policies and alerts when a machine stops backing up.",
+    "fr": "Serveur de sauvegarde Kopia pour vos machines Windows, Linux et macOS, avec des règles centrales et des alertes quand une machine ne sauvegarde plus.",
+    "it": "Server di backup Kopia per le tue macchine Windows, Linux e macOS, con regole centrali e avvisi quando una macchina smette di fare backup.",
+    "de": "Kopia-Backupserver für Ihre Windows-, Linux- und macOS-Rechner, mit zentralen Regeln und Warnungen, wenn ein Rechner nicht mehr sichert.",
+    "es": "Servidor de copias Kopia para sus equipos Windows, Linux y macOS, con reglas centrales y alertas cuando un equipo deja de hacer copias.",
+    "pt": "Servidor de cópias Kopia para as suas máquinas Windows, Linux e macOS, com regras centrais e alertas quando uma máquina deixa de fazer cópias.",
+    "pt_BR": "Servidor de backup Kopia para suas máquinas Windows, Linux e macOS, com regras centrais e alertas quando uma máquina para de fazer backup.",
+    "eu": "Kopia babeskopia-zerbitzaria zure Windows, Linux eta macOS makinentzat, arau zentralekin eta makina batek babeskopiak egiteari uzten dionean alertekin."
+  },
+  "categories": [
+    "backup"
+  ],
+  "authors": [
+    {
+      "name": "Stephane de Labrusse",
+      "email": "stephdl@de-labrusse.fr"
+    }
+  ],
+  "docs": {
+    "documentation_url": "https://github.com/stephdl/ns8-kopia#readme",
+    "bug_url": "https://github.com/stephdl/dev/issues",
+    "code_url": "https://github.com/stephdl/ns8-kopia"
+  },
+  "source": "ghcr.io/stephdl/kopia"
+}
