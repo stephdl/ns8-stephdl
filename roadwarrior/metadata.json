@@ -1,9 +1,14 @@
 {
   "name": "Roadwarrior",
   "description": {
-    "en": "OpenVPN road warrior server. Remote users reach the web apps and the file server of the node, and the web apps can be kept for the VPN clients only.",
-    "fr": "Serveur OpenVPN pour les utilisateurs nomades. Ils accèdent aux applications web et au serveur de fichiers du nœud, et les applications web peuvent être réservées aux clients VPN.",
-    "it": "Server OpenVPN per utenti in mobilità. Gli utenti remoti raggiungono le applicazioni web e il file server del nodo, e le applicazioni web possono essere riservate ai client VPN."
+    "en": "OpenVPN road warrior server. Remote users reach the web apps and the file servers of every node of the cluster, and the web apps can be kept for the VPN clients only.",
+    "fr": "Serveur OpenVPN pour les utilisateurs nomades. Ils accèdent aux applications web et aux serveurs de fichiers de chaque nœud du cluster, et les applications web peuvent être réservées aux clients VPN.",
+    "it": "Server OpenVPN per utenti in mobilità. Gli utenti remoti raggiungono le applicazioni web e i file server di ogni nodo del cluster, e le applicazioni web possono essere riservate ai client VPN.",
+    "de": "OpenVPN-Server für mobile Benutzer. Externe Benutzer erreichen die Web-Apps und die Dateiserver jedes Knotens des Clusters, und die Web-Apps können den VPN-Clients vorbehalten werden.",
+    "es": "Servidor OpenVPN para usuarios móviles. Los usuarios remotos acceden a las aplicaciones web y a los servidores de archivos de cada nodo del clúster, y las aplicaciones web pueden reservarse a los clientes VPN.",
+    "pt": "Servidor OpenVPN para utilizadores móveis. Os utilizadores remotos acedem às aplicações web e aos servidores de ficheiros de cada nó do cluster, e as aplicações web podem ficar reservadas aos clientes VPN.",
+    "pt_BR": "Servidor OpenVPN para usuários móveis. Os usuários remotos acessam os aplicativos web e os servidores de arquivos de cada nó do cluster, e os aplicativos web podem ser reservados aos clientes VPN.",
+    "eu": "OpenVPN zerbitzaria erabiltzaile mugikorrentzat. Urruneko erabiltzaileek klusterreko nodo guztietako web aplikazioak eta fitxategi zerbitzariak erabil ditzakete, eta web aplikazioak VPN bezeroentzat soilik gorde daitezke."
   },
   "categories": [
     "security"
