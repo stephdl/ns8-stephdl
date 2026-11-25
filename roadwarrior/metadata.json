@@ -1,0 +1,28 @@
+{
+  "name": "Roadwarrior",
+  "description": {
+    "en": "OpenVPN road warrior server. Remote users reach the web apps and the file servers of every node of the cluster, and a Traefik allow list can keep a web app for the VPN clients only.",
+    "fr": "Serveur OpenVPN pour les utilisateurs nomades. Ils accèdent aux applications web et aux serveurs de fichiers de chaque nœud du cluster, et une liste d'autorisation Traefik peut réserver une application web aux clients VPN.",
+    "it": "Server OpenVPN per utenti in mobilità. Gli utenti remoti raggiungono le applicazioni web e i file server di ogni nodo del cluster, e una lista di accesso di Traefik può riservare un'applicazione web ai client VPN.",
+    "de": "OpenVPN-Server für mobile Benutzer. Externe Benutzer erreichen die Web-Apps und die Dateiserver jedes Knotens des Clusters, und eine Traefik-Zulassungsliste kann eine Web-App den VPN-Clients vorbehalten.",
+    "es": "Servidor OpenVPN para usuarios móviles. Los usuarios remotos acceden a las aplicaciones web y a los servidores de archivos de cada nodo del clúster, y una lista de acceso de Traefik puede reservar una aplicación web a los clientes VPN.",
+    "pt": "Servidor OpenVPN para utilizadores móveis. Os utilizadores remotos acedem às aplicações web e aos servidores de ficheiros de cada nó do cluster, e uma lista de acesso do Traefik pode reservar uma aplicação web aos clientes VPN.",
+    "pt_BR": "Servidor OpenVPN para usuários móveis. Os usuários remotos acessam os aplicativos web e os servidores de arquivos de cada nó do cluster, e uma lista de acesso do Traefik pode reservar um aplicativo web aos clientes VPN.",
+    "eu": "OpenVPN zerbitzaria erabiltzaile mugikorrentzat. Urruneko erabiltzaileek klusterreko nodo guztietako web aplikazioak eta fitxategi zerbitzariak erabil ditzakete, eta Traefik-en baimen-zerrenda batek web aplikazio bat VPN bezeroentzat soilik gorde dezake."
+  },
+  "categories": [
+    "security"
+  ],
+  "authors": [
+    {
+      "name": "Stephane de Labrusse",
+      "email": "stephdl@de-labrusse.fr"
+    }
+  ],
+  "docs": {
+    "documentation_url": "https://github.com/stephdl/ns8-roadwarrior#readme",
+    "bug_url": "https://github.com/stephdl/dev/issues",
+    "code_url": "https://github.com/stephdl/ns8-roadwarrior"
+  },
+  "source": "ghcr.io/stephdl/roadwarrior"
+}
