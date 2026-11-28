@@ -1,0 +1,28 @@
+{
+  "name": "Discourse",
+  "description": {
+    "en": "Community forum for discussions, questions and announcements, with local accounts and optional OpenID Connect login.",
+    "fr": "Forum communautaire pour les discussions, les questions et les annonces, avec comptes locaux et connexion OpenID Connect en option.",
+    "it": "Forum della community per discussioni, domande e annunci, con account locali e accesso OpenID Connect opzionale.",
+    "de": "Community-Forum für Diskussionen, Fragen und Ankündigungen, mit lokalen Konten und optionaler OpenID-Connect-Anmeldung.",
+    "es": "Foro de comunidad para debates, preguntas y anuncios, con cuentas locales e inicio de sesión OpenID Connect opcional.",
+    "pt": "Fórum comunitário para discussões, perguntas e anúncios, com contas locais e início de sessão OpenID Connect opcional.",
+    "pt_BR": "Fórum de comunidade para discussões, perguntas e anúncios, com contas locais e login OpenID Connect opcional.",
+    "eu": "Komunitateko foroa eztabaidetarako, galderetarako eta iragarkietarako, kontu lokalekin eta aukerako OpenID Connect saio hasierarekin."
+  },
+  "categories": [
+    "collaboration"
+  ],
+  "authors": [
+    {
+      "name": "Stephane de Labrusse",
+      "email": "stephdl@de-labrusse.fr"
+    }
+  ],
+  "docs": {
+    "documentation_url": "https://github.com/stephdl/ns8-discourse#readme",
+    "bug_url": "https://github.com/stephdl/dev/issues",
+    "code_url": "https://github.com/stephdl/ns8-discourse"
+  },
+  "source": "ghcr.io/stephdl/discourse"
+}

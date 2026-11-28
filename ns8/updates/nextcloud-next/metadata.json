@@ -1,0 +1,32 @@
+{
+  "name": "Nextcloud Next",
+  "description": {
+    "en": "Nextcloud on its latest release, with MariaDB 12.3 and Redis 8. A test fork of the NethServer Nextcloud module, with no migration from it.",
+    "fr": "Nextcloud dans sa dernière version, avec MariaDB 12.3 et Redis 8. Un fork de test du module Nextcloud de NethServer, sans migration depuis celui-ci.",
+    "it": "Nextcloud nella sua ultima versione, con MariaDB 12.3 e Redis 8. Un fork di test del modulo Nextcloud di NethServer, senza migrazione da esso.",
+    "de": "Nextcloud in der neuesten Version, mit MariaDB 12.3 und Redis 8. Ein Test-Fork des NethServer-Nextcloud-Moduls, ohne Migration davon.",
+    "es": "Nextcloud en su última versión, con MariaDB 12.3 y Redis 8. Un fork de prueba del módulo Nextcloud de NethServer, sin migración desde él.",
+    "pt": "Nextcloud na sua versão mais recente, com MariaDB 12.3 e Redis 8. Um fork de teste do módulo Nextcloud do NethServer, sem migração a partir dele.",
+    "pt_BR": "Nextcloud em sua versão mais recente, com MariaDB 12.3 e Redis 8. Um fork de teste do módulo Nextcloud do NethServer, sem migração a partir dele.",
+    "eu": "Nextcloud bere azken bertsioan, MariaDB 12.3 eta Redis 8rekin. NethServer-en Nextcloud moduluaren proba-fork bat, hartatik migraziorik gabe."
+  },
+  "categories": [
+    "collaboration"
+  ],
+  "authors": [
+    {
+      "name": "Giacomo Sanchietti",
+      "email": "giacomo.sanchietti@nethesis.it"
+    },
+    {
+      "name": "Stephane de Labrusse",
+      "email": "stephdl@de-labrusse.fr"
+    }
+  ],
+  "docs": {
+    "documentation_url": "https://github.com/stephdl/ns8-nextcloud-next#readme",
+    "bug_url": "https://github.com/stephdl/dev/issues",
+    "code_url": "https://github.com/stephdl/ns8-nextcloud-next"
+  },
+  "source": "ghcr.io/stephdl/nextcloud-next"
+}

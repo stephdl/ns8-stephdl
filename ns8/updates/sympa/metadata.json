@@ -1,0 +1,28 @@
+{
+  "name": "Sympa",
+  "description": {
+    "en": "Mailing list manager with web archives, moderation and subscriber management, delivering list mail through the NS8 Mail application.",
+    "fr": "Gestionnaire de listes de diffusion avec archives web, modération et gestion des abonnés, qui distribue le courrier des listes via l'application Mail de NS8.",
+    "it": "Gestore di mailing list con archivi web, moderazione e gestione degli iscritti, che consegna la posta delle liste tramite l'applicazione Mail di NS8.",
+    "de": "Mailinglisten-Verwaltung mit Web-Archiven, Moderation und Abonnentenverwaltung, die die Listenpost über die NS8-Mail-Anwendung zustellt.",
+    "es": "Gestor de listas de correo con archivos web, moderación y gestión de suscriptores, que entrega el correo de las listas a través de la aplicación Mail de NS8.",
+    "pt": "Gestor de listas de correio com arquivos web, moderação e gestão de subscritores, que entrega o correio das listas através da aplicação Mail do NS8.",
+    "pt_BR": "Gerenciador de listas de e-mail com arquivos web, moderação e gerenciamento de inscritos, que entrega o e-mail das listas pelo aplicativo Mail do NS8.",
+    "eu": "Posta-zerrenden kudeatzailea web artxiboekin, moderazioarekin eta harpidedunen kudeaketarekin, zerrenden posta NS8ko Mail aplikazioaren bidez banatzen duena."
+  },
+  "categories": [
+    "collaboration"
+  ],
+  "authors": [
+    {
+      "name": "Stephane de Labrusse",
+      "email": "stephdl@de-labrusse.fr"
+    }
+  ],
+  "docs": {
+    "documentation_url": "https://github.com/stephdl/ns8-sympa#readme",
+    "bug_url": "https://github.com/stephdl/dev/issues",
+    "code_url": "https://github.com/stephdl/ns8-sympa"
+  },
+  "source": "ghcr.io/stephdl/sympa"
+}

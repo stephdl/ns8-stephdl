@@ -1,0 +1,19 @@
+{
+  "name": "calrs",
+  "description": {
+    "en": "Self-hosted scheduling: publish your availability, let people book a slot in your CalDAV calendar"
+  },
+  "categories": ["collaboration"],
+  "authors": [
+    {
+      "name": "Stephane de Labrusse",
+      "email": "stephane.delabrusse@nethesis.it"
+    }
+  ],
+  "docs": {
+    "documentation_url": "https://cal.rs/",
+    "bug_url": "https://github.com/stephdl/dev/issues",
+    "code_url": "https://github.com/stephdl/ns8-calrs"
+  },
+  "source": "ghcr.io/stephdl/calrs"
+}
